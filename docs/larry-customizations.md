@@ -43,13 +43,19 @@ Add `trusttunnel` inbound and outbound support to `sing-box v1.13.13`, based on 
 For server builds, keep the same feature tags as the current deployment:
 
 ```text
-with_gvisor,with_quic,with_dhcp,with_wireguard,with_utls,with_acme,with_clash_api,with_tailscale,with_ccm,with_ocm,with_naive_outbound,with_purego,badlinkname,tfogo_checklinkname0
+with_gvisor,with_quic,with_dhcp,with_wireguard,with_utls,with_acme,with_clash_api,with_tailscale,with_ccm,with_ocm,with_naive_outbound,with_purego,with_cronet,badlinkname,tfogo_checklinkname0
 ```
 
 The binary used in this session was built with:
 
 - `CGO_ENABLED=0`
 - `go1.25.10`
+
+> **Windows cronet note**: When the `with_cronet` tag is enabled, the Windows binary requires `libcronet.dll` at runtime. Copy it from the `cronet-go` module to the executable directory:
+> ```
+> copy %GOPATH%\pkg\mod\github.com\sagernet\cronet-go\lib\windows_amd64@*\libcronet.dll .
+> ```
+> The DLL is prebuilt and included in `github.com/sagernet/cronet-go`, no separate compilation needed.
 
 ## 2. Restore `sniff override destination` in rule action
 
