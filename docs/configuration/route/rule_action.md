@@ -249,7 +249,8 @@ Fragment TLS handshake into multiple TLS records to bypass firewalls.
 {
   "action": "sniff",
   "sniffer": [],
-  "timeout": ""
+  "timeout": "",
+  "override_destination": false
 }
 ```
 
@@ -270,6 +271,12 @@ Available protocol values an be found on in [Protocol Sniff](../sniff/)
 Timeout for sniffing.
 
 `300ms` is used by default.
+
+#### override_destination
+
+Use the sniffed domain to override the current connection destination.
+
+If the sniffed domain is invalid, such as Tor, it will not take effect.
 
 ### resolve
 

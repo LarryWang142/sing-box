@@ -238,7 +238,8 @@ UDP 连接超时时间。
 {
   "action": "sniff",
   "sniffer": [],
-  "timeout": ""
+  "timeout": "",
+  "override_destination": false
 }
 ```
 
@@ -259,6 +260,12 @@ UDP 连接超时时间。
 探测超时时间。
 
 默认使用 300ms。
+
+#### override_destination
+
+使用探测出的域名覆盖当前连接目标地址。
+
+如果探测出的域名无效，例如 Tor，则不会生效。
 
 ### resolve
 
