@@ -2,7 +2,7 @@ module github.com/sagernet/sing-box
 
 go 1.24.7
 
-replace github.com/sagernet/sing => github.com/LarryWang142/sing v0.8.11-larry.2
+replace github.com/sagernet/sing => github.com/LarryWang142/sing v0.8.10-larry.2
 
 replace github.com/xchacha20-poly1305/sing-trusttunnel => github.com/LarryWang142/sing-trusttunnel v0.2.3-larry.1
 
@@ -52,7 +52,7 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 	github.com/vishvananda/netns v0.0.5
-	github.com/xchacha20-poly1305/sing-trusttunnel v0.2.3-larry.1
+	github.com/xchacha20-poly1305/sing-trusttunnel v0.2.3
 	go.uber.org/zap v1.27.1
 	go4.org/netipx v0.0.0-20231129151722-fdeea329fbba
 	golang.org/x/crypto v0.48.0
