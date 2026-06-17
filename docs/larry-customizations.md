@@ -51,6 +51,32 @@ The binary used in this session was built with:
 - `CGO_ENABLED=0`
 - `go1.25.10`
 
+### OpenWrt/LEDE (musl) compatibility
+
+The binary compiled with `go1.25.10` and `CGO_ENABLED=0` is still dynamically linked
+against glibc (`libdl.so.2`, `libpthread.so.0`, `libc.so.6`) and requests the glibc
+dynamic linker `/lib/ld-linux-aarch64.so.1`. This is a behavior of the custom `go1.25.10`
+toolchain.
+
+OpenWrt/LEDE uses **musl libc** instead of glibc. musl provides a unified `libc.so` that
+contains all symbols from libdl and libpthread, and uses `/lib/ld-musl-aarch64.so.1`
+as its dynamic linker.
+
+Since the binary is built with `CGO_ENABLED=0` (no actual CGO calls into libc),
+the NEEDED entries are linker artifacts — musl can satisfy them trivially.
+
+**Fix** — create compatibility symlinks on the router:
+
+```sh
+ln -sf /lib/ld-musl-aarch64.so.1 /lib/ld-linux-aarch64.so.1
+ln -sf libc.so /lib/libdl.so.2
+ln -sf libc.so /lib/libpthread.so.0
+ln -sf libc.so /lib/libc.so.6
+```
+
+- `ld-musl-aarch64.so.1` → `ld-linux-aarch64.so.1`: lets the kernel find a valid ELF interpreter
+- `libc.so` → `libdl.so.2` / `libpthread.so.0` / `libc.so.6`: musl's unified libc satisfies all glibc NEEDED entries
+
 > **Windows cronet note**: When the `with_cronet` tag is enabled, the Windows binary requires `libcronet.dll` at runtime. Copy it from the `cronet-go` module to the executable directory:
 > ```
 > copy %GOPATH%\pkg\mod\github.com\sagernet\cronet-go\lib\windows_amd64@*\libcronet.dll .
